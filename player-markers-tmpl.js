@@ -16,7 +16,7 @@ var PLAYER_MARKERS = [
             // ...in the world "the_end"
             "the_end" : [
                 {{ range $user := . }}
-                {{ if eq $user.Dimension 1 }} // 1 == the end
+                {{ if eq $user.Dimension "minecraft:the_end" }}
                 // example marker, pretty format:
                 {
                     // position ([x, z, y])
@@ -34,7 +34,7 @@ var PLAYER_MARKERS = [
             // ...in the world "the_end"
             "myworld" : [
                 {{ range $user := . }}
-                {{ if ne $user.Dimension 1 }}
+                {{ if ne $user.Dimension "minecraft:the_end" }}
                 // example marker, pretty format:
                 {
                     // position ([x, z, y])

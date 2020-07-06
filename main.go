@@ -154,11 +154,17 @@ type User struct {
 	X         int
 	Y         int
 	Z         int
-	Dimension int
+	Dimension string
 	Uuid      string
 	Username  string
 	ModTime   int64
 	DifTime   int64
+}
+
+var dimID = map[int]string {
+	 0 : "minecraft:overworld",
+	-1 : "minecraft:the_nether",
+	 1 : "minecraft:the_end",
 }
 
 type MinecraftProfile struct {
@@ -207,9 +213,14 @@ func (u *User) SetLocation(path string) error {
 		return err
 	}
 
-	i := c.Value["Dimension"].(*nbt.Int32)
+	var i interface{} = c.Value["Dimension"]
 
-	u.Dimension = int(i.Int32)
+	switch v := i.(type) {
+	case *nbt.String:
+		u.Dimension = v.Value
+	case *nbt.Int32:
+		u.Dimension = dimID[int(v.Int32)]
+	}
 
 	p, ok := c.Value["Pos"].(*nbt.List)
 	if !ok {
